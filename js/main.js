@@ -18,14 +18,12 @@ while (mineField.length < bombs) {
     i++;
 }
 
-// La partita termina quando il giocatore inserisce un numero “vietato” o raggiunge il numero massimo possibile di numeri consentiti.
-
+// In seguito deve chiedere all’utente (100 - 16) volte di inserire un numero alla volta, sempre compreso tra 1 e 100.
+// Se il numero è presente nella lista dei numeri generati, la partita termina, altrimenti si continua chiedendo all’utente un altro numero.
 var i = 0;
 var searchBomb = false;
 var searchFields = false;
 
-// In seguito deve chiedere all’utente (100 - 16) volte di inserire un numero alla volta, sempre compreso tra 1 e 100.
-// Se il numero è presente nella lista dei numeri generati, la partita termina, altrimenti si continua chiedendo all’utente un altro numero.
 while ((userFields.length < (fields - bombs)) && (searchBomb == false)) {
     // controllo se numero inserito e dentro i parametri 
     do {  
@@ -36,6 +34,7 @@ while ((userFields.length < (fields - bombs)) && (searchBomb == false)) {
     searchFields = isInArray(userFields, userNumber);
     searchBomb = isInArray(mineField, userNumber);
     // L’utente non può inserire più volte lo stesso numero.
+    // La partita termina quando il giocatore inserisce un numero “vietato” o raggiunge il numero massimo possibile di numeri consentiti.
     if (searchFields == true) {
         alert('numero già inserito!');
     } else if (searchBomb == false){

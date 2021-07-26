@@ -74,11 +74,13 @@ while ((userFields.length < (fields - bombs)) && (searchBomb == false)) {
 }
 
 // Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito.
-console.log('Punteggio: ' + userFields.length);
-console.log('Bombe: ' + mineField);
-console.log('Numeri Scelti: ' + userFields);
+
 if (userFields.length == fields - bombs)
     alert('Hai vinto!');
+
+console.log('Bombe: ' + mineField);
+console.log('Numeri Scelti: ' + userFields);
+console.log('Punteggio: ' + userFields.length);
 
 // Funzioni -----
 
