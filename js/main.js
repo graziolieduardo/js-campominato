@@ -5,28 +5,52 @@
 
 const bombs = 16;
 var mineField = [];
+var userFields = [];
 var fields = 100;
 
 var i = 0;
 
 while (mineField.length < bombs) {
-    let bomb = rndNumber(1, 100);
+    let bomb = rndNumber(1, fields);
     let search = isInArray(mineField, bomb);
     if (search == false) 
         pushInArray(mineField, bomb);
     i++;
 }
 
-console.log(mineField);
+// La partita termina quando il giocatore inserisce un numero “vietato” o raggiunge il numero massimo possibile di numeri consentiti.
+
+var i = 0
+var searchBomb = false;
+var searchFields = false;
+
 
 // In seguito deve chiedere all’utente (100 - 16) volte di inserire un numero alla volta, sempre compreso tra 1 e 100.
-// L’utente non può inserire più volte lo stesso numero.
 // Se il numero è presente nella lista dei numeri generati, la partita termina, altrimenti si continua chiedendo all’utente un altro numero.
-// La partita termina quando il giocatore inserisce un numero “vietato” o raggiunge il numero massimo possibile di numeri consentiti.
+while ((userFields.length < (fields - bombs)) && (searchBomb == false)) {
+    // controllo se numero inserito e dentro i parametri 
+    do {  
+    var userNumber = parseInt(prompt('Inserisci un numero da 1 a 100'));
+    } while ((userNumber < 1) || (userNumber > fields) || (isNaN(userNumber)));
+
+
+    searchFields = isInArray(userFields, userNumber);
+    searchBomb = isInArray(mineField, userNumber);
+    // L’utente non può inserire più volte lo stesso numero.
+    if (searchFields == true) {
+        alert('numero già inserito!')
+    } else if (searchBomb == false){
+        pushInArray(userFields, userNumber);
+    } else {
+        alert('KABUUUUM!!')
+    }
+    i++;
+}
+
 // Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito.
-
-
-
+console.log('Punteggio: ' + userFields.length);
+if (userFields.length == fields - bombs)
+    alert('Hai vinto!');
 
 
 // Funzioni -----
@@ -38,7 +62,6 @@ function rndNumber(min, max) {
 }
 
 // Search in Array 
-
 function isInArray(array, element) {
     let inArray = false;
     for (let i = 0; i < array.length; i++) {
@@ -48,6 +71,7 @@ function isInArray(array, element) {
     return inArray;
 }
 
+// Push in array 
 function pushInArray(array, element) {
     return array.push(element);
 }
