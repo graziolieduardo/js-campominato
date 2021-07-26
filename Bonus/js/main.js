@@ -1,8 +1,5 @@
 // Consegna
 
-// Il computer deve generare 16 numeri casuali (le nostre bombe) tra 1 e 100.
-// I numeri non possono essere duplicati.
-
 const bombs = 16;
 var mineField = [];
 var userFields = [];
@@ -36,6 +33,9 @@ switch (level) {
 
 console.log('Difficoltà Attuale: ' + level.charAt(0).toUpperCase() + level.slice(1).toLowerCase());
 
+// Il computer deve generare 16 numeri casuali (le nostre bombe) tra 1 e 100.
+// I numeri non possono essere duplicati.
+
 var i = 0;
 
 while (mineField.length < bombs) {
@@ -52,15 +52,13 @@ var i = 0;
 var searchBomb = false;
 var searchFields = false;
 
-
 // In seguito deve chiedere all’utente (100 - 16) volte di inserire un numero alla volta, sempre compreso tra 1 e 100.
 // Se il numero è presente nella lista dei numeri generati, la partita termina, altrimenti si continua chiedendo all’utente un altro numero.
 while ((userFields.length < (fields - bombs)) && (searchBomb == false)) {
     // controllo se numero inserito e dentro i parametri 
     do {  
-    var userNumber = parseInt(prompt('Inserisci un numero da 1 a 100 - Numero: ' + (parseInt(i) + 1)));
+    var userNumber = parseInt(prompt('Inserisci un numero da 1 a ' + fields + ' - Numero: ' + (parseInt(i) + 1)));
     } while ((userNumber < 1) || (userNumber > fields) || (isNaN(userNumber)));
-
 
     searchFields = isInArray(userFields, userNumber);
     searchBomb = isInArray(mineField, userNumber);
@@ -77,9 +75,10 @@ while ((userFields.length < (fields - bombs)) && (searchBomb == false)) {
 
 // Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito.
 console.log('Punteggio: ' + userFields.length);
+console.log('Bombe: ' + mineField);
+console.log('Numeri Scelti: ' + userFields);
 if (userFields.length == fields - bombs)
     alert('Hai vinto!');
-
 
 // Funzioni -----
 
