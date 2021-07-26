@@ -6,7 +6,35 @@
 const bombs = 16;
 var mineField = [];
 var userFields = [];
-var fields = 100;
+var fields;
+
+// BONUS: (da fare solo se funziona tutto il resto)
+// all’inizio il software richiede anche una difficoltà all’utente che cambia il range di numeri casuali:
+
+do {
+    var level = prompt('Difficoltà Facile, Intermedia o Difficile?');
+    level = level.toLowerCase();
+} while ((level != 'facile') && (level != 'intermedia') && (level != 'difficile'));
+
+// con difficoltà 0 => tra 1 e 100
+// con difficoltà 1 => tra 1 e 80
+// con difficoltà 2 => tra 1 e 50
+
+switch (level) {
+    case 'facile':
+        fields = 100;
+        break;
+    
+    case 'intermedia':
+        fields = 80;
+        break;
+
+    case 'difficile':
+        fields = 50;
+        break;
+}
+
+console.log('Difficoltà Attuale: ' + level.charAt(0).toUpperCase() + level.slice(1).toLowerCase());
 
 var i = 0;
 
@@ -24,12 +52,13 @@ var i = 0;
 var searchBomb = false;
 var searchFields = false;
 
+
 // In seguito deve chiedere all’utente (100 - 16) volte di inserire un numero alla volta, sempre compreso tra 1 e 100.
 // Se il numero è presente nella lista dei numeri generati, la partita termina, altrimenti si continua chiedendo all’utente un altro numero.
 while ((userFields.length < (fields - bombs)) && (searchBomb == false)) {
     // controllo se numero inserito e dentro i parametri 
     do {  
-    var userNumber = parseInt(prompt('Inserisci un numero da 1 a 100'));
+    var userNumber = parseInt(prompt('Inserisci un numero da 1 a 100 - Numero: ' + (parseInt(i) + 1)));
     } while ((userNumber < 1) || (userNumber > fields) || (isNaN(userNumber)));
 
 
