@@ -62,7 +62,7 @@ document.getElementById('campo-minato').addEventListener('click',
             document.getElementById('go').style.pointerEvents = 'none';
 
         } else if (searchBomb == false){
-            element[0].style.backgroundColor = 'green';
+            element[0].style.backgroundColor = 'greenyellow';
             pushInArray(userFields, e.target.dataset.cell);
         } 
         
