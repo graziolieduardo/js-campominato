@@ -12,26 +12,23 @@ document.getElementById('go').addEventListener('click',
 function() {
         mineField = [];
 
+        document.getElementById('campo-minato').innerHTML = '';
         level = document.getElementById('choose-level').value;
 
         switch (level) {
             case 'facile':
-                document.getElementById('campo-minato').innerHTML = '';
-                createCell(100);
                 fields = 100;
                 break;
             case 'intermedia':
-                document.getElementById('campo-minato').innerHTML = '';
-                createCell(80);
                 fields = 80;
                 break;
             case 'difficile':
-                document.getElementById('campo-minato').innerHTML = '';
-                createCell(50);
                 fields = 50;
                 break;
         }
-        
+
+        createCell(fields);
+
         while (mineField.length < bombs) {
             let bomb = rndNumber(1, fields);
             let search = isInArray(mineField, bomb);
@@ -42,6 +39,7 @@ function() {
         console.log(mineField);
     }
 )
+console.log(mineField);
 
 // Controlli 
 
