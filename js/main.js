@@ -1,11 +1,9 @@
-// Consegna
-
-// Il computer deve generare 16 numeri casuali (le nostre bombe) tra 1 e 100.
-// I numeri non possono essere duplicati.
+// Parte Grafica Campo Minato 
+// Creazioni del campo minato HTML
+createCell(100);
 
 const bombs = 16;
 var mineField = [];
-var userFields = [];
 var fields = 100;
 
 var i = 0;
@@ -13,45 +11,128 @@ var i = 0;
 while (mineField.length < bombs) {
     let bomb = rndNumber(1, fields);
     let search = isInArray(mineField, bomb);
-    if (search == false) 
+    if (search == false) {
         pushInArray(mineField, bomb);
-    i++;
-}
-
-// In seguito deve chiedere all’utente (100 - 16) volte di inserire un numero alla volta, sempre compreso tra 1 e 100.
-// Se il numero è presente nella lista dei numeri generati, la partita termina, altrimenti si continua chiedendo all’utente un altro numero.
-var i = 0;
-var searchBomb = false;
-var searchFields = false;
-
-while ((userFields.length < (fields - bombs)) && (searchBomb == false)) {
-    // controllo se numero inserito e dentro i parametri 
-    do {  
-    var userNumber = parseInt(prompt('Inserisci un numero da 1 a 100'));
-    } while ((userNumber < 1) || (userNumber > fields) || (isNaN(userNumber)));
-
-
-    searchFields = isInArray(userFields, userNumber);
-    searchBomb = isInArray(mineField, userNumber);
-    // L’utente non può inserire più volte lo stesso numero.
-    // La partita termina quando il giocatore inserisce un numero “vietato” o raggiunge il numero massimo possibile di numeri consentiti.
-    if (searchFields == true) {
-        alert('numero già inserito!');
-    } else if (searchBomb == false){
-        pushInArray(userFields, userNumber);
-    } else {
-        alert('KABUUUUM!!');
     }
-    i++;
+    i++;    
 }
+console.log(mineField);
 
-// Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito.
-console.log('Punteggio: ' + userFields.length);
-if (userFields.length == fields - bombs)
-    alert('Hai vinto!');
+document.getElementById('main-container').addEventListener('click',
+    function(e) {
+        let element = document.querySelectorAll("[data-cell='" + e.target.dataset.cell + "']");
+        element[0].innerHTML = e.target.dataset.cell;
+
+        // controllo in array
+        searchBomb = isInArray(mineField, e.target.dataset.cell);
+        
+        if (searchBomb == true){
+            element[0].style.backgroundColor = 'red';
+            alert('BOOOOOOOM!!');
+        } else if (searchBomb == false){
+            element[0].style.backgroundColor = 'green';
+        }
+    }    
+);
 
 
-// Funzioni -----
+
+
+
+// Esercizio Lunedì 26/07-----------------------
+
+// const bombs = 16;
+// var mineField = [];
+// var userFields = [];
+// var fields = 100;
+
+// // Difficoltà 
+// do {
+//     var level = prompt('Difficoltà Facile, Intermedia o Difficile?');
+//     level = level.toLowerCase();
+// } while ((level != 'facile') && (level != 'intermedia') && (level != 'difficile'));
+
+// switch (level) {
+//     case 'facile':
+//         fields = 100;
+//         break;
+    
+//     case 'intermedia':
+//         fields = 80;
+//         break;
+
+//     case 'difficile':
+//         fields = 50;
+//         break;
+// }
+
+// console.log('Difficoltà Attuale: ' + level.charAt(0).toUpperCase() + level.slice(1).toLowerCase());
+
+// // Il computer deve generare 16 numeri casuali (le nostre bombe) tra 1 e 100.
+// // I numeri non possono essere duplicati.
+// var i = 0;
+
+// while (mineField.length < bombs) {
+//     let bomb = rndNumber(1, fields);
+//     let search = isInArray(mineField, bomb);
+//     if (search == false) {
+//         pushInArray(mineField, bomb);
+//     }
+//     i++;    
+// }
+// console.log(mineField);
+// // In seguito deve chiedere all’utente (100 - 16) volte di inserire un numero alla volta, sempre compreso tra 1 e 100.
+// // Se il numero è presente nella lista dei numeri generati, la partita termina, altrimenti si continua chiedendo all’utente un altro numero.
+// var i = 0;
+// var searchBomb = false;
+// var searchFields = false;
+
+// while ((userFields.length < (fields - bombs)) && (searchBomb == false)) {
+//     // controllo se numero inserito e dentro i parametri 
+//     do {  
+//     var userNumber = parseInt(prompt('Inserisci un numero da 1 a ' + fields + ' - Numero: ' + (parseInt(i) + 1)));
+//     } while ((userNumber < 1) || (userNumber > fields) || (isNaN(userNumber)));
+
+
+//     searchFields = isInArray(userFields, userNumber);
+//     searchBomb = isInArray(mineField, userNumber);
+//     // L’utente non può inserire più volte lo stesso numero.
+//     // La partita termina quando il giocatore inserisce un numero “vietato” o raggiunge il numero massimo possibile di numeri consentiti.
+//     if (searchFields == true) {
+//         alert('numero già inserito!');
+//     } else if (searchBomb == false){
+//         pushInArray(userFields, userNumber);
+//     } else {
+//         alert('KABUUUUM!!');
+//     }
+//     i++;
+// }
+
+// // Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha inserito un numero consentito.
+
+// if (userFields.length == fields - bombs)
+//     alert('Hai vinto!');
+
+// console.log('Bombe: ' + mineField);
+// console.log('Numeri Scelti: ' + userFields);
+// console.log('Punteggio: ' + userFields.length);
+
+// FUNZIONI -----
+
+// Creazioni elementi 
+
+function createCell(cells) {
+    for(let i = 1; i <= cells; i++) {
+        let cell = `
+        <div data-cell="${i}" class="cell"></div>
+        `;
+
+        let templateCell = document.createElement('DIV');
+        templateCell.classList.add('square');
+        templateCell.innerHTML = cell;
+        document.getElementById('main-container').appendChild(templateCell);
+    }
+}
 
 // Random Number 
 function rndNumber(min, max) {
