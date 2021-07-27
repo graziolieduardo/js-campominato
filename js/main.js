@@ -1,24 +1,51 @@
-// Parte Grafica Campo Minato 
+
 // Creazioni del campo minato HTML
-createCell(100);
 
 const bombs = 16;
+var userFields = [];
 var mineField = [];
-var fields = 100;
+var fields;
 
-var i = 0;
+// Scelta Difficoltà e Creazione bombe
 
-while (mineField.length < bombs) {
-    let bomb = rndNumber(1, fields);
-    let search = isInArray(mineField, bomb);
-    if (search == false) {
-        pushInArray(mineField, bomb);
+document.getElementById('go').addEventListener('click',
+function() {
+        mineField = [];
+
+        level = document.getElementById('choose-level').value;
+
+        switch (level) {
+            case 'facile':
+                document.getElementById('campo-minato').innerHTML = '';
+                createCell(100);
+                fields = 100;
+                break;
+            case 'intermedia':
+                document.getElementById('campo-minato').innerHTML = '';
+                createCell(80);
+                fields = 80;
+                break;
+            case 'difficile':
+                document.getElementById('campo-minato').innerHTML = '';
+                createCell(50);
+                fields = 50;
+                break;
+        }
+        
+        while (mineField.length < bombs) {
+            let bomb = rndNumber(1, fields);
+            let search = isInArray(mineField, bomb);
+            if (search == false) {
+                pushInArray(mineField, bomb);
+            } 
+        }
+        console.log(mineField);
     }
-    i++;    
-}
-console.log(mineField);
+)
 
-document.getElementById('main-container').addEventListener('click',
+// Controlli 
+
+document.getElementById('campo-minato').addEventListener('click',
     function(e) {
         let element = document.querySelectorAll("[data-cell='" + e.target.dataset.cell + "']");
         element[0].innerHTML = e.target.dataset.cell;
@@ -27,14 +54,32 @@ document.getElementById('main-container').addEventListener('click',
         searchBomb = isInArray(mineField, e.target.dataset.cell);
         
         if (searchBomb == true){
-            element[0].style.backgroundColor = 'red';
-            alert('BOOOOOOOM!!');
+            document.getElementById('reset').innerHTML = '<img src="img/dead.png" alt="Reset Button">';
+            element[0].style.backgroundImage = "url('../img/bomb-active.jpg')";
+            document.getElementById('score').innerHTML = 'Punteggio: ' + userFields.length;
+            document.getElementById('campo-minato').style.pointerEvents = 'none';
+            document.getElementById('choose-level').style.pointerEvents = 'none';
+            document.getElementById('go').style.pointerEvents = 'none';
+
         } else if (searchBomb == false){
             element[0].style.backgroundColor = 'green';
+            pushInArray(userFields, e.target.dataset.cell);
+        } 
+        
+        if (userFields.length == (fields - bombs)) {
+            document.getElementById('reset').innerHTML = '<img src="img/sunglasses.jpg" alt="Reset Button">';
+            document.getElementById('score').innerHTML = 'Vittoria!';
         }
+        console.log(userFields);
     }    
 );
 
+// reset button 
+document.getElementById('reset').addEventListener('click',
+    function(){
+        location.reload();
+    }
+);
 
 
 
@@ -130,7 +175,7 @@ function createCell(cells) {
         let templateCell = document.createElement('DIV');
         templateCell.classList.add('square');
         templateCell.innerHTML = cell;
-        document.getElementById('main-container').appendChild(templateCell);
+        document.getElementById('campo-minato').appendChild(templateCell);
     }
 }
 

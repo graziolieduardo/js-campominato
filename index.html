@@ -9,9 +9,35 @@
     <title>Campo Minato</title>
 </head>
 <body>
-    <div id="main-container" class="container clearfix">
-
-    </div>
+    <!-- inizio header  -->
+    <header>
+        <h1>Minefiled</h1>
+        <div class="level">
+            <label for="choose-level">Difficoltà:</label>
+            <select name="level" id="choose-level">
+                <option value="facile">Facile</option>
+                <option value="intermedia">Intermedia</option>
+                <option value="difficile">Difficile</option>
+            </select>
+            <button id="go">go!</button>
+        </div>
+        <button id="reset">
+            <img src="img/smile.png" alt="Reset Button">
+        </button>
+    </header>
+    
+    <!-- inizio main  -->
+    <main>
+        <div class="wrapper">
+            <div id="campo-minato" class="container clearfix">
+                
+            </div>
+            <div class="score-box">
+                <span id="score"></span>
+            </div>
+        </div>
+    </main>
+    
 
     <!-- Linked JS  -->
     <script src="js/main.js"></script>
