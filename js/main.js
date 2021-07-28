@@ -6,29 +6,37 @@ var userFields = [];
 var mineField = [];
 var fields;
 
-// Scelta Difficoltà e Creazione bombe
+// immagiine default btn reset 
 
+document.getElementById('reset').innerHTML = '<img src="img/smile.png" alt="Reset Button">'; 
+
+// Eventlistener button go 
 document.getElementById('go').addEventListener('click',
 function() {
-        mineField = [];
 
+        mineField = [];
+        // ripristino pointer events 
+        document.getElementById('campo-minato').style.pointerEvents = 'auto';
+
+        // Scelta Difficoltà e creazione celle
         document.getElementById('campo-minato').innerHTML = '';
         level = document.getElementById('choose-level').value;
-
+        document.getElementById('reset').innerHTML = '<img src="img/smile.png" alt="Reset Button">'; 
         switch (level) {
-            case 'facile':
-                fields = 100;
-                break;
             case 'intermedia':
                 fields = 80;
                 break;
             case 'difficile':
                 fields = 50;
                 break;
+            default:
+                fields = 100;
+                break;
         }
 
         createCell(fields);
 
+        // generazione bombe 
         while (mineField.length < bombs) {
             let bomb = rndNumber(1, fields);
             let search = isInArray(mineField, bomb);
@@ -39,15 +47,13 @@ function() {
         console.log(mineField);
     }
 )
-console.log(mineField);
 
 // Controlli 
-
 document.getElementById('campo-minato').addEventListener('click',
     function(e) {
         let element = document.querySelectorAll("[data-cell='" + e.target.dataset.cell + "']");
 
-        // controllo in array
+        // controllo bomba
         searchBomb = isInArray(mineField, e.target.dataset.cell);
         
         if (searchBomb == true){
@@ -55,13 +61,12 @@ document.getElementById('campo-minato').addEventListener('click',
             element[0].style.backgroundImage = "url('img/bomb-active.jpg')";
             document.getElementById('score').innerHTML = 'Punteggio: ' + userFields.length;
             document.getElementById('campo-minato').style.pointerEvents = 'none';
-            // document.getElementById('choose-level').style.pointerEvents = 'none';
-            // document.getElementById('go').style.pointerEvents = 'none';
 
+        // controllo neighborcells corner
         } else if (searchBomb == false){
             var neighborCells = [];
             var bombCounter = 0;;
-            // controllo neighborcells angoli 
+
             switch (parseInt(e.target.dataset.cell)) {
                 case 1:
                     neighborCells = [1, 10, 11];
@@ -95,7 +100,8 @@ document.getElementById('campo-minato').addEventListener('click',
                             bombCounter++
                     }
                     break;
-                // controllo neighborcells lato sinistro
+
+                // controllo neighborcells left col
                 case 11:
                 case 21:
                 case 31:
@@ -111,7 +117,8 @@ document.getElementById('campo-minato').addEventListener('click',
                             bombCounter++
                     }
                     break;
-                // controllo neighborcells lato destro
+
+                // controllo neighborcells right col
                 case 20:
                 case 30:
                 case 40:
@@ -127,6 +134,7 @@ document.getElementById('campo-minato').addEventListener('click',
                             bombCounter++
                     }
                     break;
+
                 // controllo neighborcells row top
                 case 2:
                 case 3:
@@ -143,6 +151,7 @@ document.getElementById('campo-minato').addEventListener('click',
                             bombCounter++
                     }
                     break;
+
                 // controllo neighborcells row bottom
                 case 92:
                 case 93:
@@ -159,6 +168,7 @@ document.getElementById('campo-minato').addEventListener('click',
                             bombCounter++
                     }
                     break;
+
                 // controllo neighborcells default
                 default:
                     neighborCells = [-1, 1, -9, 9, -10, 10, -11, 11];
@@ -169,12 +179,14 @@ document.getElementById('campo-minato').addEventListener('click',
                     }
                     break;
             }    
-            element[0].innerHTML = bombCounter;
 
+            // stile cella no bomb 
+            element[0].innerHTML = bombCounter;
             element[0].style.backgroundColor = 'greenyellow';
             pushInArray(userFields, e.target.dataset.cell);
         } 
         
+        // controllo vittoria 
         if (userFields.length == (fields - bombs)) {
             document.getElementById('reset').innerHTML = '<img src="img/sunglasses.jpg" alt="Reset Button">';
             document.getElementById('score').innerHTML = 'Vittoria!';
@@ -186,7 +198,22 @@ document.getElementById('campo-minato').addEventListener('click',
 // reset button 
 document.getElementById('reset').addEventListener('click',
     function(){
-        location.reload();
+        document.getElementById('campo-minato').style.pointerEvents = 'auto';
+        document.getElementById('reset').innerHTML = '<img src="img/smile.png" alt="Reset Button">'; 
+        document.getElementById('campo-minato').innerHTML = '';
+        level = document.getElementById('choose-level').value;
+        switch (level) {
+            case 'intermedia':
+                fields = 80;
+                break;
+            case 'difficile':
+                fields = 50;
+                break;
+            default:
+                fields = 100;
+                break;
+        }
+        createCell(fields);
     }
 );
 
