@@ -46,20 +46,131 @@ console.log(mineField);
 document.getElementById('campo-minato').addEventListener('click',
     function(e) {
         let element = document.querySelectorAll("[data-cell='" + e.target.dataset.cell + "']");
-        element[0].innerHTML = e.target.dataset.cell;
 
         // controllo in array
         searchBomb = isInArray(mineField, e.target.dataset.cell);
         
         if (searchBomb == true){
             document.getElementById('reset').innerHTML = '<img src="img/dead.png" alt="Reset Button">';
-            element[0].style.backgroundImage = "url('../img/bomb-active.jpg')";
+            element[0].style.backgroundImage = "url('img/bomb-active.jpg')";
             document.getElementById('score').innerHTML = 'Punteggio: ' + userFields.length;
             document.getElementById('campo-minato').style.pointerEvents = 'none';
-            document.getElementById('choose-level').style.pointerEvents = 'none';
-            document.getElementById('go').style.pointerEvents = 'none';
+            // document.getElementById('choose-level').style.pointerEvents = 'none';
+            // document.getElementById('go').style.pointerEvents = 'none';
 
         } else if (searchBomb == false){
+            var neighborCells = [];
+            var bombCounter = 0;;
+            // controllo neighborcells angoli 
+            switch (parseInt(e.target.dataset.cell)) {
+                case 1:
+                    neighborCells = [1, 10, 11];
+                    for (let i = 0; i < neighborCells.length; i++) {
+                        let somma = parseInt(e.target.dataset.cell) + neighborCells[i];
+                        if (isInArray(mineField, somma) == true)
+                            bombCounter++
+                    }
+                    break;
+                case 10:
+                    neighborCells = [-1, 9, 10];
+                    for (let i = 0; i < neighborCells.length; i++) {
+                        let somma = parseInt(e.target.dataset.cell) + neighborCells[i];
+                        if (isInArray(mineField, somma) == true)
+                            bombCounter++
+                    }
+                    break;
+                case 91:
+                    neighborCells = [-10, -9, 1];
+                    for (let i = 0; i < neighborCells.length; i++) {
+                        let somma = parseInt(e.target.dataset.cell) + neighborCells[i];
+                        if (isInArray(mineField, somma) == true)
+                            bombCounter++
+                    }
+                    break;
+                case 100:
+                    neighborCells = [-1, -10, -11];
+                    for (let i = 0; i < neighborCells.length; i++) {
+                        let somma = parseInt(e.target.dataset.cell) + neighborCells[i];
+                        if (isInArray(mineField, somma) == true)
+                            bombCounter++
+                    }
+                    break;
+                // controllo neighborcells lato sinistro
+                case 11:
+                case 21:
+                case 31:
+                case 41:
+                case 51:
+                case 61:
+                case 71:
+                case 81:
+                    neighborCells = [-10, -9, 1, 10, 11];
+                    for (let i = 0; i < neighborCells.length; i++) {
+                        let somma = parseInt(e.target.dataset.cell) + neighborCells[i];
+                        if (isInArray(mineField, somma) == true)
+                            bombCounter++
+                    }
+                    break;
+                // controllo neighborcells lato destro
+                case 20:
+                case 30:
+                case 40:
+                case 50:
+                case 60:
+                case 70:
+                case 80:
+                case 90:
+                    neighborCells = [-10, 10, -1, 9, -11];
+                    for (let i = 0; i < neighborCells.length; i++) {
+                        let somma = parseInt(e.target.dataset.cell) + neighborCells[i];
+                        if (isInArray(mineField, somma) == true)
+                            bombCounter++
+                    }
+                    break;
+                // controllo neighborcells row top
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    neighborCells = [-1, 9, 10, 11, 1];
+                    for (let i = 0; i < neighborCells.length; i++) {
+                        let somma = parseInt(e.target.dataset.cell) + neighborCells[i];
+                        if (isInArray(mineField, somma) == true)
+                            bombCounter++
+                    }
+                    break;
+                // controllo neighborcells row bottom
+                case 92:
+                case 93:
+                case 94:
+                case 95:
+                case 96:
+                case 97:
+                case 98:
+                case 99:
+                    neighborCells = [-1, -11, -10, -9, 1];
+                    for (let i = 0; i < neighborCells.length; i++) {
+                        let somma = parseInt(e.target.dataset.cell) + neighborCells[i];
+                        if (isInArray(mineField, somma) == true)
+                            bombCounter++
+                    }
+                    break;
+                // controllo neighborcells default
+                default:
+                    neighborCells = [-1, 1, -9, 9, -10, 10, -11, 11];
+                    for (let i = 0; i < neighborCells.length; i++) {
+                        let somma = parseInt(e.target.dataset.cell) + neighborCells[i];
+                        if (isInArray(mineField, somma) == true)
+                            bombCounter++
+                    }
+                    break;
+            }    
+            element[0].innerHTML = bombCounter;
+
             element[0].style.backgroundColor = 'greenyellow';
             pushInArray(userFields, e.target.dataset.cell);
         } 
@@ -78,8 +189,6 @@ document.getElementById('reset').addEventListener('click',
         location.reload();
     }
 );
-
-
 
 
 // Esercizio Lunedì 26/07-----------------------
