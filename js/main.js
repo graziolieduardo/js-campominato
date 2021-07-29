@@ -12,7 +12,7 @@ document.getElementById('reset').innerHTML = '<img src="img/smile.png" alt="Rese
 
 // Eventlistener button go 
 document.getElementById('go').addEventListener('click',
-function() {
+    function() {
 
         mineField = [];
         // ripristino pointer events 
@@ -52,6 +52,7 @@ function() {
 document.getElementById('campo-minato').addEventListener('click',
     function(e) {
         let element = document.querySelectorAll("[data-cell='" + e.target.dataset.cell + "']");
+        console.log(element);
 
         // controllo bomba
         searchBomb = isInArray(mineField, e.target.dataset.cell);
@@ -182,8 +183,13 @@ document.getElementById('campo-minato').addEventListener('click',
 
             // stile cella no bomb 
             element[0].innerHTML = bombCounter;
-            element[0].style.backgroundColor = 'greenyellow';
-            pushInArray(userFields, e.target.dataset.cell);
+            element[0].classList.add('clicked-cell');
+
+            // controllo seclta utente per evitare che vinca scegliendo lo stesso numero
+            if (isInArray(userFields, e.target.dataset.cell) == false) {
+                pushInArray(userFields, e.target.dataset.cell);
+            }
+        
         } 
         
         // controllo vittoria 
@@ -198,6 +204,8 @@ document.getElementById('campo-minato').addEventListener('click',
 // reset button 
 document.getElementById('reset').addEventListener('click',
     function(){
+        mineField = [];
+
         document.getElementById('campo-minato').style.pointerEvents = 'auto';
         document.getElementById('reset').innerHTML = '<img src="img/smile.png" alt="Reset Button">'; 
         document.getElementById('campo-minato').innerHTML = '';
@@ -214,6 +222,16 @@ document.getElementById('reset').addEventListener('click',
                 break;
         }
         createCell(fields);
+
+        // generazione bombe 
+        while (mineField.length < bombs) {
+            let bomb = rndNumber(1, fields);
+            let search = isInArray(mineField, bomb);
+            if (search == false) {
+                pushInArray(mineField, bomb);
+            } 
+        }
+        console.log(mineField);
     }
 );
 
@@ -333,3 +351,5 @@ function isInArray(array, element) {
 function pushInArray(array, element) {
     return array.push(element);
 }
+
+
