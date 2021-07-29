@@ -13,9 +13,11 @@ document.getElementById('reset').innerHTML = '<img src="img/smile.png" alt="Rese
 // Eventlistener button go 
 document.getElementById('go').addEventListener('click',
     function() {
-
+        // reset array 
+        userFields = [];
         mineField = [];
-        // ripristino pointer events 
+
+        // reset pointer events 
         document.getElementById('campo-minato').style.pointerEvents = 'auto';
 
         // Scelta Difficoltà e creazione celle
@@ -52,7 +54,6 @@ document.getElementById('go').addEventListener('click',
 document.getElementById('campo-minato').addEventListener('click',
     function(e) {
         let element = document.querySelectorAll("[data-cell='" + e.target.dataset.cell + "']");
-        console.log(element);
 
         // controllo bomba
         searchBomb = isInArray(mineField, e.target.dataset.cell);
@@ -182,10 +183,27 @@ document.getElementById('campo-minato').addEventListener('click',
             }    
 
             // stile cella no bomb 
+            switch (bombCounter) {
+                case 1:
+                    element[0].style.color = 'blue';
+                    break;
+                case 2:
+                    element[0].style.color = 'green';
+                    break;
+                case 3:
+                    element[0].style.color = 'red';
+                    break;
+                case 4:
+                    element[0].style.color = 'purple'
+                    break;
+                case 5:
+                    element[0].style.color = 'darkred'
+                    break;    
+            }
             element[0].innerHTML = bombCounter;
             element[0].classList.add('clicked-cell');
 
-            // controllo seclta utente per evitare che vinca scegliendo lo stesso numero
+            // controllo scelta utente per evitare che vinca scegliendo lo stesso numero
             if (isInArray(userFields, e.target.dataset.cell) == false) {
                 pushInArray(userFields, e.target.dataset.cell);
             }
@@ -204,6 +222,7 @@ document.getElementById('campo-minato').addEventListener('click',
 // reset button 
 document.getElementById('reset').addEventListener('click',
     function(){
+        userFields = [];
         mineField = [];
 
         document.getElementById('campo-minato').style.pointerEvents = 'auto';

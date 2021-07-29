@@ -8,6 +8,7 @@
 
 body {
     background-color: lightgray;
+    font-family: 'Roboto', sans-serif;
 }
 
 .clearfix::after {
@@ -77,6 +78,7 @@ main .wrapper {
     background-size: cover;
     background-position: center;
     border: 1px solid gray;
+    font-weight: bold;
 }
 
 .clicked-cell {
