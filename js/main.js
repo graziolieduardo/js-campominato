@@ -13,10 +13,11 @@ document.getElementById('reset').innerHTML = '<img src="img/smile.png" alt="Rese
 // Eventlistener button go 
 document.getElementById('go').addEventListener('click',
     function() {
-        // reset array 
+        // reset array e punteggio
         userFields = [];
         mineField = [];
-
+        document.getElementById('score').innerHTML = '';
+        
         // reset pointer events 
         document.getElementById('campo-minato').style.pointerEvents = 'auto';
 
@@ -225,6 +226,8 @@ document.getElementById('reset').addEventListener('click',
         userFields = [];
         mineField = [];
 
+        document.getElementById('score').innerHTML = '';
+
         document.getElementById('campo-minato').style.pointerEvents = 'auto';
         document.getElementById('reset').innerHTML = '<img src="img/smile.png" alt="Reset Button">'; 
         document.getElementById('campo-minato').innerHTML = '';
@@ -338,7 +341,7 @@ document.getElementById('reset').addEventListener('click',
 // Creazioni elementi 
 
 function createCell(cells) {
-    for(let i = 1; i <= cells; i++) {
+    for (let i = 1; i <= cells; i++) {
         let cell = `
         <div data-cell="${i}" class="cell"></div>
         `;
